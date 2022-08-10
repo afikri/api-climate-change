@@ -4,6 +4,20 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 
 const app = express()
+const newspapers = [
+    {
+        name: 'thetimes',
+        address: 'https://www.thetimes.co.uk/environment/climate-change'
+    },
+    {
+        name: 'guardian',
+        address: ''
+    },
+    {
+        name: 'telegraph',
+        address: ''
+    },
+]
 const articles = []
 
 app.get('/', (req, res) => {
@@ -15,7 +29,7 @@ app.get('/news', (req, res) => {
         then((response) => {
             const html = response.data
             const $ = cheerio.load(html)
-            $('a:contains("climate")', html).each(function(){
+            $('a:contains("climate")', html).each(function () {
                 const title = $(this).text()
                 const url = $(this).attr('href')
                 articles.push({
